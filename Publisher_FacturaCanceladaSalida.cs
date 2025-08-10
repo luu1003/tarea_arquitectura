@@ -9,7 +9,7 @@ namespace b_taller_automovil.Eventos
 {
     public class Publisher_FacturaCanceladaSalida
     {
-        internal delegate void delegado_factura_salida();
+        internal delegate void delegado_factura_salida(float pago);
         internal event delegado_factura_salida evt_factura_salida;
 
         public void Informar_Cancelamiento_Factura_Salida(float pago)
@@ -18,19 +18,8 @@ namespace b_taller_automovil.Eventos
             {
                 if (evt_factura_salida != null)
                 {
-                    evt_factura_salida();
-                    if (pago == Reparacion.Valor)
-                    {
-                        Console.WriteLine("El pago fue procesado con exito, puede pasar a retirar su vehiculo");
-                    }
-                    else
-                    {
-                        Console.WriteLine("El pago no fue procesado, revise que la cantidad es el costo de la reparacion o intente de nuevo");
-                    }
-
+                    evt_factura_salida(pago);
                 }
-                else Console.WriteLine("Llamada no valida al método");
-
             }
             catch (Exception ex)
             {
