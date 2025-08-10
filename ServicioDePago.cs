@@ -19,19 +19,14 @@ namespace b_taller_automovil.Servicios
         {
             try
             {
+                float saldo_obtenido = Cancelar_Pago_float(float pago, Cliente cliente, float costo_repuesto);
                 if (pago < (Reparacion.Valor + costo_repuesto))
                 {
-                    cliente.Saldopendiente = (Reparacion.Valor + costo_repuesto) - pago; // Ajusta el saldo pendiente
-                    return $"El pago no se pudo realizar completamente. Monto pendiente: {cliente.Saldopendiente}";
+                    return $"El pago no se pudo realizar completamente. Monto pendiente: {saldo_obtenido}";
                 }
                 else
                 {
-                    cliente.Saldopendiente = 0; // Se cancela la deuda completamente
-                    cliente.Saldo = Math.Max(cliente.Saldo - pago, 0); // Deja el saldo en cero o resta lo necesario
-
-                    _publisherFactura.Informar_Cancelamiento_Factura_Salida(pago);
-
-                    return $"El pago fue ejecutado de manera exitosa. Saldo restante: {cliente.Saldo}";
+                    return $"El pago fue ejecutado de manera exitosa. Saldo restante: {saldo_obtenido}";
                 }
             }
             catch (Exception ex)
@@ -59,7 +54,7 @@ namespace b_taller_automovil.Servicios
             }
             catch (Exception ex)
             {
-                throw new Exception("Ocurrio un error en el metodo Cancelar Pago" + ex.Message);
+                throw new Exception("Ocurrio un error en el metodo Cancelar Pago Float" + ex.Message);
             }
         }
 
