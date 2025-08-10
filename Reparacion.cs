@@ -11,64 +11,44 @@ namespace b_taller_automovil.Clases
     {
         private const float valor = 1200000;
 
+        private readonly Publisher_VehiculoIngresado _publisherIngreso;
+        private readonly Publisher_ReparacionFinalizada _publisherReparacion;
+
         public Carro carro;
         private DateTime fecha;
         private List<Repuesto> l_repuesto;
         private List<Mecanico> l_mecanicos;
-        private static bool ingreso = false;
+        private bool ingreso = false;
 
-
-        public static Publisher_ReparacionFinalizada publicador;
-        public Publisher_VehiculoIngresado publicador_2;
-        internal static void EventHandler()
+        public Reparacion(Carro carro, List<Repuesto> l_repuesto, List<Mecanico> l_mecanicos, Publisher_VehiculoIngresado publisherIngreso, Publisher_ReparacionFinalizada publisherReparacion)
         {
-
-        }
-
-        public Reparacion(Carro carro, List<Repuesto> l_repuesto, List<Mecanico> l_mecanicos)
-        {
-            this.Carro = carro;
-            this.Fecha = DateTime.Now;
+            this.carro = carro;
+            this.fecha = DateTime.Now;
             this.L_repuesto = l_repuesto;
             this.L_mecanicos = l_mecanicos;
+            _publisherIngreso = publisherIngreso;
+            _publisherReparacion = publisherReparacion;
 
-            publicador_2 = new Publisher_VehiculoIngresado();
-            //suscribir el metodo al evento
-            publicador_2.evt_ingreso += EventHandler;
-            //invocar evento
-            publicador_2.Informar_Ingreso_Vehiculo(ingreso = true);
-
+            _publisherIngreso.Informar_Ingreso_Vehiculo(ingreso = true);
         }
 
-        public static void Finalizar_Reparacion()
+        public void Finalizar_Reparacion()
         {
             try
             {
-                if (Gasolina.Reparacion == true || 
-                    Hibrido.Reparacion == true || 
-                    Electrico.Reparacion == true) 
-
+                if (this.carro.Reparacion == true)
                 {
-                    publicador = new Publisher_ReparacionFinalizada();
-                    //suscribir el metodo al evento
-                    publicador.evt_reparacion += EventHandler;
-                    //invocar evento
-                    publicador.Informar_Reparacion_Finalizada(true);
+                    _publisherReparacion.Informar_Reparacion_Finalizada(true);
                 }
                 else
                 {
-                    publicador = new Publisher_ReparacionFinalizada();
-                    //suscribir el metodo al evento
-                    publicador.evt_reparacion += EventHandler;
-                    //invocar evento
-                    publicador.Informar_Reparacion_Finalizada(false);
+                    _publisherReparacion.Informar_Reparacion_Finalizada(false);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception("Ocurrio un error en el metodo Finalizar Reparacion");
             }
-
         }
 
         public static float Valor { get => valor;}

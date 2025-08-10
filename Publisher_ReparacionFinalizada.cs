@@ -9,7 +9,7 @@ namespace b_taller_automovil.Eventos
 {
     public class Publisher_ReparacionFinalizada
     {
-        internal delegate void delegado_reparacion();
+        internal delegate void delegado_reparacion(bool final);
         internal event delegado_reparacion evt_reparacion;
 
         public void Informar_Reparacion_Finalizada(bool final)
@@ -18,19 +18,8 @@ namespace b_taller_automovil.Eventos
             {
                 if (evt_reparacion != null)
                 {
-                    evt_reparacion();
-                    if (final == true)
-                    {
-                        Console.WriteLine("La reparacion del auto se ha hecho de manera exitosa, puede pasar a cancelar el costo de reparacion");
-                    }
-                    else
-                    {
-                        Console.WriteLine("La reparacion del auto no ha terminado aun, no se puede cancelar el costo de reparacion");
-                    }
-
+                    evt_reparacion(final);
                 }
-                else Console.WriteLine("Llamada no valida al método");
-
             }
             catch (Exception ex)
             {

@@ -22,6 +22,7 @@ namespace b_taller_automovil.Clases
         public string Modelo { get => modelo; set => modelo = value; }
         public int Año { get => año; set => año = value; }
         public string Dueño { get => dueño; set => dueño = value; }
+        public bool Reparacion { get; set; }
 
         public Carro(string placa, string marca, string modelo, int año, string dueño)
         {

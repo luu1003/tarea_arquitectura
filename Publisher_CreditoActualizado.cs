@@ -19,11 +19,7 @@ namespace b_taller_automovil.Eventos
                 if (evt_credito != null)
                 {
                     evt_credito();
-                    Console.WriteLine("El credito fue procesado con exito, Revise su nuevo valor de credito");
-
                 }
-                else Console.WriteLine("Llamada no valida al método");
-
             }
             catch (Exception ex)
             {
